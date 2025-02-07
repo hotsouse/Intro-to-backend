@@ -1,13 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Todo Details</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Detail</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 18px;
+            text-align: left;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid black;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
-    <h1>{{ todo.title }}</h1>
-    <p>{{ todo.description }}</p>
-    <p>Due Date: {{ todo.due_date }}</p>
-    <p>Status: {% if todo.status %}Completed{% else %}Pending{% endif %}</p>
-    <a href="{% url 'todo_list' %}">Back to List</a>
+    <h2>Todo Details</h2>
+    <table>
+        <tr>
+            <th>Title</th>
+            <td>{{ todo.title }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ todo.description }}</td>
+        </tr>
+        <tr>
+            <th>Due Date</th>
+            <td>{{ todo.due_date }}</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>{{ todo.status|yesno:"Completed,Not Completed" }}</td>
+        </tr>
+    </table>
+
+    <a href="{% url 'get_todos' %}">Back to List</a>
 </body>
 </html>
+

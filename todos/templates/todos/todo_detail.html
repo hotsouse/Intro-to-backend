@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todo Details</title>
+</head>
+<body>
+    <h1>{{ todo.title }}</h1>
+    <p>{{ todo.description }}</p>
+    <p>Due Date: {{ todo.due_date }}</p>
+    <p>Status: {% if todo.status %}Completed{% else %}Pending{% endif %}</p>
+    <a href="{% url 'todo_list' %}">Back to List</a>
+</body>
+</html>

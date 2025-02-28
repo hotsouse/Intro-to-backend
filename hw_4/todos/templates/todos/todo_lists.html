@@ -1,0 +1,34 @@
+{% extends 'todos/base.html' %}
+
+{% block content %}
+<h1>Todo Lists</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Add Todo List</button>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for todo_list in todo_lists %}
+        <tr>
+            <td>{{ todo_list.id }}</td>
+            <td>{{ todo_list.title }}</td>
+            <td>{{ todo_list.description }}</td>
+            <td>
+                <!-- <a href="{% url 'todo_list_detail' todo_list.id %}" class="btn btn-info">View</a> -->
+                <a href="{% url 'edit_todo_list' todo_list.id %}" class="btn btn-warning">Edit</a>
+                <a href="{% url 'delete_todo_list' todo_list.id %}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

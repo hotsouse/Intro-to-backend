@@ -1,0 +1,51 @@
+{% extends 'todos/base.html' %}
+
+{% block content %}
+<h1>Create product for {{ todo_list.title }}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>Name</label>
+        <input type="text" name="title" class="form-control" placeholder="Enter product name">
+    </div>
+    <div class="form-group">
+        <label>Quantity</label>
+        <input type="number" name="quantity" class="form-control" placeholder="Enter quantity">
+    </div>
+    <div class="form-group">
+        <label>Price</label>
+        <input type="number" name="price" class="form-control" placeholder="Enter price">
+    </div>
+    <button type="submit" class="btn btn-primary">Create Product</button>
+</form>
+
+<div class="mt-4">
+    <h2>{{ todo_list.title }}</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>QUANTITY</th>
+                <th>PRICE (KZT)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for todo in todo_list.todos.all %}
+            <tr>
+                <td>{{ todo.id }}</td>
+                <td>{{ todo.title }}</td>
+                <td>{{ todo.quantity }}</td>
+                <td>{{ todo.price }}</td>
+                <td>
+                    <a href="{% url 'edit_todo' todo.id %}" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="{% url 'delete_todo' todo.id %}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %} 

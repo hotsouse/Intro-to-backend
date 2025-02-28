@@ -1,0 +1,68 @@
+{% extends 'todos/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Tasks List</h1>
+
+    <div class="mb-4">
+        <form method="post" action="{% url 'todo-create' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" name="title" class="form-control" placeholder="Enter task title">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea name="description" class="form-control" placeholder="Enter task description"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Due Date</label>
+                <input type="date" name="due_date" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" name="status"> Completed
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Create Task</button>
+        </form>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>TITLE</th>
+                <th>DESCRIPTION</th>
+                <th>DUE DATE</th>
+                <th>STATUS</th>
+                <th>CATEGORY</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for todo in todos %}
+            <tr>
+                <td>{{ todo.id }}</td>
+                <td>{{ todo.title }}</td>
+                <td>{{ todo.description }}</td>
+                <td>{{ todo.due_date }}</td>
+                <td>
+                    {% if todo.status %}
+                        <span class="badge badge-success">Completed</span>
+                    {% else %}
+                        <span class="badge badge-warning">Pending</span>
+                    {% endif %}
+                </td>
+                <td>{{ todo.todo_list.title|default:"Uncategorized" }}</td>
+                <td>
+                    <a href="{% url 'categorize-todo' todo.id %}" class="btn btn-info btn-sm">Categorize</a>
+                    <a href="{% url 'edit-todo' todo.id %}" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="{% url 'delete-todo' todo.id %}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %} 

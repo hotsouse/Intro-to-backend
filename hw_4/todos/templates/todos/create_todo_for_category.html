@@ -1,0 +1,30 @@
+{% extends 'todos/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Create Task for Category: {{ category.title }}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Title</label>
+            <input type="text" name="title" class="form-control" placeholder="Enter task title">
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea name="description" class="form-control" placeholder="Enter task description"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Due Date</label>
+            <input type="date" name="due_date" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="status"> Completed
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Task</button>
+        <a href="{% url 'todo-list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %} 

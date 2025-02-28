@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Todo List</title>
+</head>
+<body>
+    <h1 id="category-title">Category Name</h1>
+    <form id="create-todo">
+        <input type="text" id="todo-title" placeholder="Enter todo title">
+        <textarea id="todo-description" placeholder="Enter todo description"></textarea>
+        <button type="submit">Add Todo</button>
+    </form>
+    <div id="todo-list">
+        <!-- Todos will be dynamically inserted here -->
+    </div>
+    <a href="index.html">Back to Todo Lists</a>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryId = parseInt(urlParams.get('categoryId'));
+
+        let todos = [
+            { id: 1, title: 'sleep well', description: 'have a good dream', categoryId: 1 },
+            { id: 2, title: 'sleep', description: 'good sleep', categoryId: 2 }
+        ];
+
+        function renderTodos() {
+            const todoListDiv = document.getElementById('todo-list');
+            todoListDiv.innerHTML = '';
+            const filteredTodos = todos.filter(todo => todo.categoryId === categoryId);
+            filteredTodos.forEach(todo => {
+                const todoElement = document.createElement('div');
+                todoElement.innerHTML = `
+                    <h3>${todo.title}</h3>
+                    <p>${todo.description}</p>
+                    <button onclick="editTodo(${todo.id})">Edit</button>
+                    <button onclick="deleteTodo(${todo.id})">Delete</button>
+                `;
+                todoListDiv.appendChild(todoElement);
+            });
+        }
+
+        document.getElementById('create-todo').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const title = document.getElementById('todo-title').value;
+            const description = document.getElementById('todo-description').value;
+            const newTodo = {
+                id: todos.length + 1,
+                title,
+                description,
+                categoryId
+            };
+            todos.push(newTodo);
+            renderTodos();
+            document.getElementById('create-todo').reset();
+        });
+
+        function editTodo(id) {
+            const todo = todos.find(todo => todo.id === id);
+            if (todo) {
+                const newTitle = prompt('Enter new title', todo.title);
+                const newDescription = prompt('Enter new description', todo.description);
+                if (newTitle !== null && newDescription !== null) {
+                    todo.title = newTitle;
+                    todo.description = newDescription;
+                    renderTodos();
+                }
+            }
+        }
+
+        function deleteTodo(id) {
+            todos = todos.filter(todo => todo.id !== id);
+            renderTodos();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderTodos();
+        });
+    </script>
+</body>
+</html>

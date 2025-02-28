@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Lists</title>
+</head>
+<body>
+    <h1>Todo Lists</h1>
+    <form id="add-todo-form">
+        <input type="text" id="todo-title" placeholder="Enter todo title">
+        <textarea id="todo-description" placeholder="Enter todo description"></textarea>
+        <button type="submit">Add Todo</button>
+    </form>
+
+    <table id="todo-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Todos will be dynamically inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        let todos = [
+            { id: 1, title: 'sleep well', description: 'have a good dream' },
+            { id: 3, title: 'sleep', description: 'good sleep' }
+        ];
+
+        function renderTodos() {
+            const tbody = document.querySelector('#todo-table tbody');
+            tbody.innerHTML = '';
+            todos.forEach(todo => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${todo.id}</td>
+                    <td>${todo.title}</td>
+                    <td>${todo.description}</td>
+                    <td>
+                        <button onclick="editTodo(${todo.id})">Edit</button>
+                        <button onclick="deleteTodo(${todo.id})">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        document.getElementById('add-todo-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const title = document.getElementById('todo-title').value;
+            const description = document.getElementById('todo-description').value;
+            const newTodo = {
+                id: todos.length + 1,
+                title,
+                description
+            };
+            todos.push(newTodo);
+            renderTodos();
+            document.getElementById('add-todo-form').reset();
+        });
+
+        function editTodo(id) {
+            const todo = todos.find(todo => todo.id === id);
+            if (todo) {
+                const newTitle = prompt('Enter new title', todo.title);
+                const newDescription = prompt('Enter new description', todo.description);
+                if (newTitle !== null && newDescription !== null) {
+                    todo.title = newTitle;
+                    todo.description = newDescription;
+                    renderTodos();
+                }
+            }
+        }
+
+        function deleteTodo(id) {
+            todos = todos.filter(todo => todo.id !== id);
+            renderTodos();
+        }
+
+        renderTodos();
+    </script>
+</body>
+</html>

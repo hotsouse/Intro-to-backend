@@ -1,9 +1,13 @@
 from django.urls import path
-from .views import get_todos, get_todo_by_id, create_todo, delete_todo
+from .views import register_view, login_view, todo_list, todo_detail, todo_create, todo_delete, logout_view
+
 
 urlpatterns = [
-    path('', get_todos, name='get_todos'),
-    path('<int:id>/', get_todo_by_id, name='get_todo_by_id'),
-    path('add/', create_todo, name='create_todo'),
-    path('<int:id>/delete/', delete_todo, name='delete_todo'),
+    path("register/", register_view, name="register"),
+    path("login/", login_view, name="login"),
+    path("logout/", logout_view, name="logout"),
+    path("todos/", todo_list, name="todo_list"),
+    path("todos/<int:id>/", todo_detail, name="todo_detail"),
+    path("todos/new/", todo_create, name="todo_create"),
+    path("todos/<int:id>/delete/", todo_delete, name="todo_delete"),
 ]

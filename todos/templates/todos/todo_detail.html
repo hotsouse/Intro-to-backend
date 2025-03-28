@@ -1,48 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo Detail</title>
-    <style>
-        table {
-            width: 50%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 18px;
-            text-align: left;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid black;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
-</head>
-<body>
-    <h2>Todo Details</h2>
-    <table>
-        <tr>
-            <th>Title</th>
-            <td>{{ todo.title }}</td>
-        </tr>
-        <tr>
-            <th>Description</th>
-            <td>{{ todo.description }}</td>
-        </tr>
-        <tr>
-            <th>Due Date</th>
-            <td>{{ todo.due_date }}</td>
-        </tr>
-        <tr>
-            <th>Status</th>
-            <td>{{ todo.status|yesno:"Completed,Not Completed" }}</td>
-        </tr>
-    </table>
+{% extends "todos/base.html" %}
 
-    <a href="{% url 'get_todos' %}">Back to List</a>
-</body>
-</html>
-
+{% block content %}
+<div class="todo-item">
+    <h2>{{ todo.title }}</h2>
+    <p>{{ todo.description }}</p>
+    <p><small>Created: {{ todo.created_at|date:"F j, Y" }}</small></p>
+    <p><small>Last updated: {{ todo.updated_at|date:"F j, Y" }}</small></p>
+    
+    <div>
+        <a href="{% url 'todo_list' %}"><button>Back to List</button></a>
+        <form method="post" action="{% url 'todo_delete' todo.id %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" style="background-color: #dc3545;">Delete</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

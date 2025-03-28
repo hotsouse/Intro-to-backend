@@ -1,0 +1,18 @@
+{% extends "todos/base.html" %}
+
+{% block content %}
+<div class="todo-item">
+    <h2>{{ todo.title }}</h2>
+    <p>{{ todo.description }}</p>
+    <p><small>Created: {{ todo.created_at|date:"F j, Y" }}</small></p>
+    <p><small>Last updated: {{ todo.updated_at|date:"F j, Y" }}</small></p>
+    
+    <div>
+        <a href="{% url 'todo_list' %}"><button>Back to List</button></a>
+        <form method="post" action="{% url 'todo_delete' todo.id %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" style="background-color: #dc3545;">Delete</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
